@@ -1,18 +1,12 @@
-import { NextRequest, NextResponse as resp } from "next/server";
-import { z } from 'zod';
+import {NextRequest, NextResponse as resp} from "next/server";
 import prisma from "@/../prisma/client";
-
-
-const createIssueSchema = z.object({
-	title: z.string().min(1, 'Title is required').max(255),
-	description: z.string().min(1, 'Description is required')
-});
+import { validationSchemas } from "@/tools/validationSchemas";
 
 
 export async function POST(req :NextRequest) {
 	try {
 		const body = await req.json();
-		const validation = createIssueSchema.safeParse(body);
+		const validation = validationSchemas.safeParse(body);
 
 
 		if(!validation.success)
